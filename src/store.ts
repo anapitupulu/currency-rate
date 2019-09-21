@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, GetterTree } from 'vuex';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import { ICurrency } from './types/currency';
 
 Vue.use(Vuex);
@@ -10,6 +10,7 @@ export const BASE_CURRENCY = 'USD';
 interface IState {
   activeCurrencies: string[];
   availableCurrencies: {[currencyId: string]: ICurrency};
+  isFetchingData: boolean;
 }
 
 interface ExchangeRatesApiResponse {
@@ -33,11 +34,16 @@ const storeState: IState = {
     JPY: { id: 'JPY', label: 'Japanese Yen' },
     KRW: { id: 'KRW', label: 'South Korean Won' },
   },
+  isFetchingData: false,
 };
 
 const mutations: MutationTree<IState> = {
   setCurrencyRate(state: IState, currencyRate: { id: string, rateFromBase: number }) {
-    state.availableCurrencies[currencyRate.id].rateFromBase = currencyRate.rateFromBase;
+    Vue.set(state.availableCurrencies[currencyRate.id], 'rateFromBase', currencyRate.rateFromBase);
+  },
+
+  setFetchingData(state: IState, isFetchingData: boolean) {
+    state.isFetchingData = isFetchingData;
   },
 
   addActiveCurrency(state: IState, currencyId: string) {
@@ -45,18 +51,25 @@ const mutations: MutationTree<IState> = {
   },
 
   removeActiveCurrency(state: IState, currencyId: string) {
-    state.activeCurrencies = state.activeCurrencies.filter((currency) => currency === currencyId);
+    state.activeCurrencies = state.activeCurrencies.filter((currency) => currency !== currencyId);
   },
 };
 
 const actions: ActionTree<IState, IState> = {
   async refreshRates({state, commit}) {
-    const newRates: ExchangeRatesApiResponse =
+    if (state.activeCurrencies.length === 0) {
+      return;
+    }
+
+    commit('setFetchingData', true);
+    const res: AxiosResponse<ExchangeRatesApiResponse> =
       await axios.get(`https://api.exchangeratesapi.io/latest?base=${BASE_CURRENCY}&symbols=${state.activeCurrencies.join()}`);
+    const newRates = res.data;
 
     state.activeCurrencies.forEach((currency) => {
       commit('setCurrencyRate', {id: currency, rateFromBase: newRates.rates[currency]});
     });
+    commit('setFetchingData', false);
   },
 
   async addCurrency({commit, dispatch}, addedCurrency: string) {
@@ -75,7 +88,7 @@ const getters: GetterTree<IState, IState> = {
   unselectedCurrencies: (state: IState): string[] => {
     const allCurrencies: string[] = Object.keys(state.availableCurrencies);
     return allCurrencies
-      .filter((currency) => currency === BASE_CURRENCY)
+      .filter((currency) => currency !== BASE_CURRENCY)
       .filter((currency) => !state.activeCurrencies.includes(currency));
   },
 };
@@ -83,5 +96,6 @@ const getters: GetterTree<IState, IState> = {
 export default new Vuex.Store({
   mutations,
   actions,
+  getters,
   state: storeState,
 });
