@@ -19,7 +19,7 @@ interface ExchangeRatesApiResponse {
   date: string;
 }
 
-const storeState: IState = {
+const getDefaultState = (): IState => ({
   activeCurrencies: [],
   availableCurrencies: {
     USD: { label: 'United States Dollar'},
@@ -35,7 +35,9 @@ const storeState: IState = {
     KRW: { label: 'South Korean Won' },
   },
   isFetchingData: false,
-};
+});
+
+const storeState: IState = getDefaultState();
 
 const mutations: MutationTree<IState> = {
   setCurrencyRate(state: IState, currencyRate: { id: string, rateFromBase: number }) {
@@ -52,6 +54,10 @@ const mutations: MutationTree<IState> = {
 
   removeActiveCurrency(state: IState, currencyId: string) {
     state.activeCurrencies = state.activeCurrencies.filter((currency) => currency !== currencyId);
+  },
+
+  reset(state: IState) {
+    Object.assign(state, getDefaultState());
   },
 };
 
