@@ -7,7 +7,7 @@
             <v-col class="font-weight-black">
               {{ currencyId }}
             </v-col>
-            <v-col class="text-right">
+            <v-col qa-id="total-amount" class="text-right">
               {{ totalAmount | toLocale }}
             </v-col>
           </v-row>
@@ -17,7 +17,7 @@
             </v-col>
           </v-row>
           <v-row no-gutters>
-            <v-col qa-id="total-amount" class="font-weight-medium">
+            <v-col class="font-weight-medium">
               1 {{ baseCurrency }} = {{ currencyId }} {{ currency.rateFromBase | toLocale }}
             </v-col>
           </v-row>
