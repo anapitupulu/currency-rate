@@ -36,6 +36,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { BASE_CURRENCY } from './store';
+import { ICurrency } from './types/currency';
 import BaseCurrency from './components/BaseCurrency.vue';
 import CurrencyRate from './components/CurrencyRate.vue';
 
@@ -65,30 +66,26 @@ export default class App extends Vue {
   }
 
   get currencyAdded() {
-    return undefined;
-  }
-
-  get isFetchingData() {
-    return this.$store.state.isFetchingData;
+    return '';
   }
 
   set currencyAdded(currencyId: string) {
     this.$store.dispatch('addCurrency', currencyId);
   }
 
-  removeCurrency(currencyId: string) {
+  get isFetchingData() {
+    return this.$store.state.isFetchingData;
+  }
+
+  private removeCurrency(currencyId: string) {
     this.$store.dispatch('removeCurrency', currencyId);
   }
 
-  getCurrency(currencyId: string): ICurrency {
+  private getCurrency(currencyId: string): ICurrency {
     return this.availableCurrencies[currencyId];
   }
 
-  created() {
-    this.$store.dispatch('refreshRates');
-  }
-
-  setAmount(newAmount: number) {
+  private setAmount(newAmount: number) {
     this.baseCurrencyAmount = newAmount;
   }
 }

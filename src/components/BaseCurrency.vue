@@ -49,7 +49,7 @@ export default class BaseCurrency extends Vue {
   }
 
   set currencyAmount(newAmount: number) {
-    this.$emit('newAmountEntered', newAmount)
+    this.$emit('newAmountEntered', newAmount);
   }
 
   private isValidNumber(amount: number) {

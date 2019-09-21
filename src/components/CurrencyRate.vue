@@ -60,7 +60,7 @@ export default class CurrencyRate extends Vue {
   private baseCurrency: string;
 
   get totalAmount(): number {
-    return this.currencyAmount * this.currency.rateFromBase;
+    return this.currencyAmount * (this.currency.rateFromBase || 0);
   }
 
   private removeCurrency() {
