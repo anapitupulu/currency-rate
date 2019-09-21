@@ -9,6 +9,7 @@
       >
       </BaseCurrency>
       <v-progress-linear
+        qa-id="progress-bar"
         absolute
         v-show="isFetchingData"
         indeterminate
