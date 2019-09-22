@@ -33,27 +33,43 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { ICurrency } from '../types/currency';
 
+/**
+ * Vue component to display the base currency data and also to set its amount
+ */
 @Component({})
 export default class BaseCurrency extends Vue {
 
+  /** the amount to be converted in each selected currencies */
   @Prop({required: true})
   private amount: number;
 
+  /** the ID of the base currency */
   @Prop({required: true})
   private currencyId: string;
 
+  /** the data of the base currency */
   @Prop({required: true})
   private currency: ICurrency;
 
+  /** computed property of the currency amount. This is just a proxy to the `amount` prop */
   get currencyAmount() {
     return this.amount;
   }
 
+  /**
+   * custom setter of the currency amount. It will emit `newAmountEntered` event which
+   * will trigger the recalculation of each selected currencies
+   */
   set currencyAmount(newAmount: number) {
     this.$emit('newAmountEntered', newAmount);
   }
 
-  private isValidNumber(amount: number) {
+  /**
+   * Returns true if `amount` is a valid number. This is used to validate `amount` entered by the user.
+   * @param amount {number} - the amount to be validated
+   * @returns true if `amount` is a valid number. Otherwise it'll return an error message
+   */
+  private isValidNumber(amount: number): boolean | string {
     return !isNaN(amount) || 'Enter a valid number';
   }
 }

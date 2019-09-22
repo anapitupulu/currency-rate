@@ -45,24 +45,37 @@ import { ICurrency } from '../types/currency';
     },
   },
 })
+
+/**
+ * Vue component to display the conversion rate from a base currency to other currency
+ */
 export default class CurrencyRate extends Vue {
 
+  /** the ID of the currency to be displayed */
   @Prop({required: true})
   private currencyId: string;
 
+  /** the data of the currency to be displayed */
   @Prop({required: true})
   private currency: ICurrency;
 
+  /** the amount of the base currency to be converted */
   @Prop({required: true})
   private currencyAmount: number;
 
+  /** the ID of the base currency */
   @Prop({ default: 'USD' })
   private baseCurrency: string;
 
+  /** computed property to calculate the total amount of the currency */
   get totalAmount(): number {
     return this.currencyAmount * (this.currency.rateFromBase || 0);
   }
 
+  /**
+   * Removes this currency from the list of the selected currencies
+   * It emits `currencyRemoved` event along with the ID of the removed currency.
+   */
   private removeCurrency() {
     this.$emit('currencyRemoved', this.currencyId);
   }

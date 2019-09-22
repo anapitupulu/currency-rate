@@ -20,24 +20,24 @@ describe(`store`, () => {
   });
 
   it(`should be able to add active currency`, () => {
-    store.commit('addActiveCurrency', 'IDR');
-    store.commit('addActiveCurrency', 'USD');
-    expect(store.state.activeCurrencies.length).toBe(2);
-    expect(store.state.activeCurrencies[0]).toBe('IDR');
+    store.commit('addSelectedCurrency', 'IDR');
+    store.commit('addSelectedCurrency', 'USD');
+    expect(store.state.selectedCurrencies.length).toBe(2);
+    expect(store.state.selectedCurrencies[0]).toBe('IDR');
   });
 
   it(`should be able to remove active currency`, () => {
-    store.commit('addActiveCurrency', 'IDR');
-    store.commit('addActiveCurrency', 'USD');
-    store.commit('addActiveCurrency', 'SGD');
-    store.commit('removeActiveCurrency', 'IDR');
-    expect(store.state.activeCurrencies[0]).toBe('USD');
+    store.commit('addSelectedCurrency', 'IDR');
+    store.commit('addSelectedCurrency', 'USD');
+    store.commit('addSelectedCurrency', 'SGD');
+    store.commit('removeSelectedCurrency', 'IDR');
+    expect(store.state.selectedCurrencies[0]).toBe('USD');
   });
 
   it(`should populate rates of active currencies when refresh is called`, async () => {
-    store.commit('addActiveCurrency', 'CAD');
-    store.commit('addActiveCurrency', 'IDR');
-    store.commit('addActiveCurrency', 'GBP');
+    store.commit('addSelectedCurrency', 'CAD');
+    store.commit('addSelectedCurrency', 'IDR');
+    store.commit('addSelectedCurrency', 'GBP');
     await store.dispatch('refreshRates');
     expect(store.state.availableCurrencies).toEqual({
       CAD: {
