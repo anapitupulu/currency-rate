@@ -2312,6 +2312,17 @@ chromedriver@^2.46.0:
     request "^2.88.0"
     tcp-port-used "^1.0.1"
 
+chromedriver@^77.0.0:
+  version "77.0.0"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-77.0.0.tgz#bd916cc87a0ccb7a6e4fb4b43cb2368bc54db6a0"
+  integrity sha512-mZa1IVx4HD8rDaItWbnS470mmypgiWsDiu98r0NkiT4uLm3qrANl4vOU6no6vtWtLQiW5kt1POcIbjeNpsLbXA==
+  dependencies:
+    del "^4.1.1"
+    extract-zip "^1.6.7"
+    mkdirp "^0.5.1"
+    request "^2.88.0"
+    tcp-port-used "^1.0.1"
+
 ci-info@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.6.0.tgz#2ca20dbb9ceb32d4524a683303313f0304b1e497"

@@ -7,6 +7,7 @@
     </v-row>
     <v-row>
       <v-col
+        qa-id="base-currency"
         xs="6"
         sm="8"
       >

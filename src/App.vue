@@ -25,6 +25,7 @@
       </CurrencyRate>
       <v-container>
         <v-select
+          qa-id="add-currency"
           v-model="currencyAdded"
           label="Add a currency"
           :items="unselectedCurrencies"  
