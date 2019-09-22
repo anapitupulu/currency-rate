@@ -1,0 +1,15 @@
+@startuml
+
+card App.vue
+card BaseCurrency.vue
+card CurrencyRate.vue
+storage VuexStore
+cloud exchangerateapi.io
+
+App.vue --> BaseCurrency.vue : pass base currency data
+App.vue --> CurrencyRate.vue : pass currency data
+App.vue --> VuexStore : read / write data to the store
+VuexStore --> exchangerateapi.io : fetch rates and store them
+
+
+@enduml
