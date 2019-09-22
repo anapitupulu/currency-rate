@@ -62,6 +62,18 @@ yarn run test:e2e
 ```
 E2E tests are located in `./tests/e2e/specs/test.js`. Tests are written with [Nightwatch.js](https://nightwatchjs.org/). Unfortunately, due Vuetify isn't E2E friendly (the DOM component's class names are dynamically generated so it's hard to locate the elements programatically), there isn't many tests that can be written.
 
+E2E were only tested with Chrome 76 environment and require that Chrome version to be installed.
+
+### Docker
+`Dockerfile` is provided to deploy the app in the docker container. To deploy it:
+
+```bash
+# build the docker image
+$ docker build . -t currency-rate
+
+# run the the docker image
+$ docker run -d -p 8080:80 currency-rate
+```
 ## Future enhancements
 These are several features that would be nice to be implemented in the future:
 
